@@ -27,7 +27,6 @@ public class Schedulers {
     @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.MINUTES)
     public void outputCurrentStats() {
         Map<Long, TrackInfo> stats = trackCounter.getCounter();
-        logger.info("dadada");
         if(!stats.isEmpty()) {
             stats.forEach((key, value) -> logger.info("User with id={} has been searched for {} times.", key, value.getCt()));
         }else{
