@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  app:
+    image: userdb:latest
+    build:
+      context: src/main/java
+      dockerfile: Dockerfile
+    ports:
+      - "8086:8086"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/UserDBMongo
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:5.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:

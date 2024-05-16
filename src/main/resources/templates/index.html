@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users display</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td{
+            padding: 15px;
+        }
+        table.center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h1 th:text="${appName}"></h1>
+<table style = "width: 80%", class="center">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Town</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}">ID</td>
+        <td th:text="${user.name}">Name</td>
+        <td th:text="${user.email}">Email</td>
+        <td th:text="${user.town}">Town</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:mongodb="http://www.liquibase.org/xml/ns/mongodb"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+         http://www.liquibase.org/xml/ns/mongodb
+         http://www.liquibase.org/xml/ns/mongodb/liquibase-mongodb-latest.xsd">
+
+<!--    <changeSet id="1" author="alex">-->
+<!--        <mongodb:update>-->
+<!--            <mongodb:collectionName>"Users"</mongodb:collectionName>-->
+<!--            <mongodb:updateObject>-->
+<!--                <>"RO"</mongodb:field>-->
+<!--                    <mongodb:field fieldName="country">"RO"</mongodb:field>-->
+<!--                </mongodb:set>-->
+<!--            </mongodb:updateObject>-->
+<!--        </mongodb:update>-->
+<!--    </changeSet>-->
+
+    <changeSet id="add_field" author="alexxx">
+        <mongodb:update>-->
+            <mongodb:collectionName>"Users"</mongodb:collectionName>
+                <mongodb:updateObject>
+                    <mongodb:set>
+                        <mongodb:field fieldName="country" defaultValue="RO">"RO"</mongodb:field>
+                    </mongodb:set>
+                </mongodb:updateObject>
+        </mongodb:update>
+    </changeSet>
+
+</databaseChangeLog>

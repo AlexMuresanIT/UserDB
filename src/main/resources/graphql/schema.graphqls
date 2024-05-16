@@ -1,0 +1,45 @@
+type User {
+    id : ID
+    name: String
+    email: String
+    password: String
+    town: String
+}
+
+type UserDTO {
+    id : ID
+    name: String
+    email: String
+    town: String
+}
+
+type MapStats {
+    id: ID!
+    ct: Int
+    date: String
+}
+
+input UserInput {
+    name: String
+    email: String
+    password: String
+    town: String
+}
+
+type Query {
+    findAll: [UserDTO]
+    findUserById(id:ID): UserDTO
+    getUserStats: [MapStats]
+    resetStats: [MapStats]
+}
+
+type Mutation {
+    createUser(user : UserInput): User
+    updateUser(id:ID,user:UserInput): User
+    deleteUser(id:ID): User
+}
+
+type Subscription {
+    randomNumber: String
+    getUsers: [UserDTO]
+}

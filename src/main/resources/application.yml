@@ -1,0 +1,22 @@
+app:
+  title: "USERS DATA"
+page:
+  title: "USERS PROJECT"
+login:
+  user1:
+    username: "admin"
+    password: "adminboss"
+  user2:
+    username: "alex"
+    password: "alexboss"
+  user3:
+    username: "mihai"
+    password: "mihaiboss"
+
+
+
+
+
+
+
+

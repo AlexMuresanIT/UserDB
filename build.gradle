@@ -1,0 +1,60 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.5'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id("org.liquibase.gradle") version "2.2.2"
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'com.h2database:h2'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation 'org.springframework.security:spring-security-config'
+    implementation 'org.springframework.security:spring-security-web'
+    implementation 'com.graphql-java:graphql-java-extended-scalars:22.0'
+    implementation("com.tailrocks.graphql:graphql-datetime-spring-boot-starter:6.0.0")
+    implementation 'org.springframework.boot:spring-boot-starter-graphql'
+    implementation 'io.projectreactor:reactor-core'
+    implementation 'org.springframework:spring-websocket'
+    implementation group: 'org.springframework', name: 'spring-messaging', version: '6.1.6'
+    implementation group: 'com.graphql-java', name: 'voyager-spring-boot-starter', version: '5.0.2'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webflux', version: '3.2.5'
+    implementation group: 'org.liquibase', name: 'liquibase-core', version: '4.27.0'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation group: 'org.liquibase.ext', name: 'liquibase-mongodb', version: '4.24.0'
+
+
+    testImplementation "org.testcontainers:testcontainers:1.18.1"
+    testImplementation "org.testcontainers:junit-jupiter:1.18.1"
+    testImplementation "org.testcontainers:mongodb:1.18.1"
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.12.0'
+
+
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
