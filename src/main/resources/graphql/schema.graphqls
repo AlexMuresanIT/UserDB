@@ -3,7 +3,14 @@ type User {
     name: String
     email: String
     password: String
-    town: String
+    address: Address
+}
+
+type Address {
+    street:String
+    number:Int
+    zipcode:Int
+    town:String
 }
 
 type UserDTO {
@@ -19,11 +26,18 @@ type MapStats {
     date: String
 }
 
+input AddressI {
+    street:String
+    number:Int
+    zipcode:Int
+    town:String
+}
+
 input UserInput {
     name: String
     email: String
     password: String
-    town: String
+    address: AddressI
 }
 
 type Query {
