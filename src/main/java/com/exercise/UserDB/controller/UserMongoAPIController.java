@@ -3,6 +3,7 @@ package com.exercise.UserDB.controller;
 import com.exercise.UserDB.aop.TrackCounterM;
 import com.exercise.UserDB.aop.TrackInfo;
 import com.exercise.UserDB.config.ConvertInterface;
+import com.exercise.UserDB.exception.NoUserFoundException;
 import com.exercise.UserDB.model.UserDTOMongo;
 import com.exercise.UserDB.model.UserMongo;
 import com.exercise.UserDB.rolesvalidator.ValidatorFactory;
@@ -40,11 +41,23 @@ public class UserMongoAPIController implements ConvertInterface<UserDTOMongo, Us
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/userm/{id}")
     public ResponseEntity<UserDTOMongo> getUserById(@PathVariable String id) {
-        logger.info("User with id {} is retrieved", id);
         try{
             var user = userMongoService.findById(id);
+            logger.info("User with id {} is retrieved", id);
             return new ResponseEntity<>(convertToDTO(user),HttpStatus.OK);
         }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/userm/email/{email}")
+    public ResponseEntity<UserDTOMongo> getUserByEmail(@PathVariable String email) {
+        try{
+            var user = userMongoService.findByEmail(email);
+            logger.info("User with email {} is retrieved", email);
+            return new ResponseEntity<>(convertToDTO(user),HttpStatus.OK);
+        }catch (NoUserFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -79,13 +92,13 @@ public class UserMongoAPIController implements ConvertInterface<UserDTOMongo, Us
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/userm/update/{id}")
-    public ResponseEntity<Boolean> updateUser(@PathVariable String id, @RequestBody UserMongo user) {
+    public ResponseEntity<String> updateUser(@PathVariable String id, @RequestBody UserMongo user) {
         logger.info("User with id {} updated", user.getId());
         try{
             userMongoService.update(id,user);
-            return new ResponseEntity<>(true,HttpStatus.OK);
+            return new ResponseEntity<>("User updated.",HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<>(false,HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Could not update the user.",HttpStatus.NOT_FOUND);
         }
     }
 

@@ -116,4 +116,16 @@ public class UserServiceTest {
         Mockito.when(repo.findById("dad")).thenReturn(Optional.empty());
         assertThrows(NoUserFoundException.class, ()->userMongoService.update("dad",user));
     }
+
+    @Test
+    void getUserByEmailAndThenVerifyThatHasBeenFound() {
+        Mockito.when(repo.findByEmail("dadada")).thenReturn(Optional.of(user));
+        assertThat(userMongoService.findByEmail("dadada")).isEqualTo(user);
+    }
+
+    @Test
+    void getAnUserByEmailThatDoesNotExist() {
+        Mockito.when(repo.findByEmail("da")).thenReturn(Optional.empty());
+        assertThrows(NoUserFoundException.class, ()->userMongoService.findByEmail("da"));
+    }
 }
