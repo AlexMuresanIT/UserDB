@@ -59,4 +59,12 @@ public class UserMongoService {
         }
         throw new NoUserFoundException("User not found");
     }
+
+    public UserMongo findByEmail(String email) {
+        var user = mUserRepo.findByEmail(email);
+        if (user.isPresent()) {
+            return user.get();
+        }
+        throw new NoUserFoundException("User not found");
+    }
 }
