@@ -57,6 +57,7 @@ public class UserControllerTest {
     private static final String CURRENT_USER="/usernamem";
     private static final String GET_STATS="/statsm";
     private static final String RESET_STATS="/statsm/reset";
+    public static final String GET_USER_EMAIL="/userm/email/{email}";
 
     @BeforeAll
     static void setUp() {
@@ -96,6 +97,35 @@ public class UserControllerTest {
                 .header("Authorization","Basic YWRtaW46YWRtaW5ib3Nz")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
+                .andReturn()
+                .getResponse();
+
+        assertThat(response.getStatus()).isEqualTo(404);
+    }
+
+    @Test
+    void getUserByEmail() throws Exception {
+
+        repo.save(userTest);
+
+        var response = this.mockMvc.perform(get(GET_USER_EMAIL,"alex@email.com")
+                .header("Authorization","Basic YWRtaW46YWRtaW5ib3Nz")
+                .accept(MediaType.APPLICATION_JSON))
+                .andReturn()
+                .getResponse();
+
+        assertThat(response.getStatus()).isEqualTo(200);
+        UserMongo user = new ObjectMapper().readValue(response.getContentAsString(), UserMongo.class);
+        assertThat(user.getName()).isEqualTo("Alex");
+        assertThat(user.getEmail()).isEqualTo("alex@email.com");
+    }
+
+    @Test
+    void getUserByEmailThatNotExists() throws Exception {
+
+        var response = this.mockMvc.perform(get(GET_USER_EMAIL,"alex@email.com")
+                .header("Authorization","Basic YWRtaW46YWRtaW5ib3Nz")
+                .accept(MediaType.APPLICATION_JSON))
                 .andReturn()
                 .getResponse();
 
