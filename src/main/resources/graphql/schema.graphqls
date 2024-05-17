@@ -7,17 +7,17 @@ type User {
 }
 
 type Address {
-    street:String
-    number:Int
-    zipcode:Int
-    town:String
+    street: String
+    number: Int
+    zipcode: Int
+    city: String
 }
 
 type UserDTO {
     id : ID
     name: String
     email: String
-    town: String
+    address: Address
 }
 
 type MapStats {
@@ -27,10 +27,10 @@ type MapStats {
 }
 
 input AddressI {
-    street:String
-    number:Int
-    zipcode:Int
-    town:String
+    street: String
+    number: Int
+    zipcode: Int
+    city: String
 }
 
 input UserInput {
