@@ -1,5 +1,6 @@
 package com.exercise.UserDB.service;
 
+import com.exercise.UserDB.exception.InvalidData;
 import com.exercise.UserDB.exception.NoUserFoundException;
 import com.exercise.UserDB.model.UserMongo;
 import com.exercise.UserDB.repository.MUserRepo;
@@ -20,8 +21,16 @@ public class UserMongoService {
     }
 
     public boolean save(UserMongo user) {
-        mUserRepo.save(user);
-        return true;
+
+        int zipcode = user.getAddress().getZipcode();
+        int nr = user.getAddress().getNumber();
+
+        if(zipcode > 99999 && zipcode < 1000000 && nr > 0 && nr < 1000) {
+            mUserRepo.save(user);
+            return true;
+        }
+        throw new InvalidData("Street number or zipcode are invalid.");
+
     }
 
     public List<UserMongo> findAll() {
@@ -48,14 +57,22 @@ public class UserMongoService {
 
     public boolean update(String id, UserMongo user) {
         Optional<UserMongo> updatedUser = mUserRepo.findById(id);
+
         if(updatedUser.isPresent()){
-            UserMongo updatedUserMongo = updatedUser.get();
-            updatedUserMongo.setName(user.getName());
-            updatedUserMongo.setPassword(user.getPassword());
-            updatedUserMongo.setEmail(user.getEmail());
-            updatedUserMongo.setTown(user.getTown());
-            mUserRepo.save(updatedUserMongo);
-            return true;
+
+            int zipcode = user.getAddress().getZipcode();
+            int nr = user.getAddress().getNumber();
+
+            if(zipcode > 9999 && zipcode < 1000000 && nr > 0 && nr < 1000) {
+                UserMongo updatedUserMongo = updatedUser.get();
+                updatedUserMongo.setName(user.getName());
+                updatedUserMongo.setPassword(user.getPassword());
+                updatedUserMongo.setEmail(user.getEmail());
+                updatedUserMongo.setAddress(user.getAddress());
+                mUserRepo.save(updatedUserMongo);
+                return true;
+            }
+            throw new InvalidData("Street number or zipcode are invalid.");
         }
         throw new NoUserFoundException("User not found");
     }

@@ -11,13 +11,13 @@ public class UserDTOMongo {
     private String id;
     private String name;
     private String email;
-    private String town;
+    private Address address;
 
     public UserDTOMongo(UserMongo user) {
         this.id = user.getId();
         this.name = user.getName();
         this.email = user.getEmail();
-        this.town = user.getTown();
+        this.address = user.getAddress();
     }
 
     @Override
@@ -26,7 +26,7 @@ public class UserDTOMongo {
         sb.append("id='").append(id).append('\'');
         sb.append(", name='").append(name).append('\'');
         sb.append(", email='").append(email).append('\'');
-        sb.append(", town='").append(town).append('\'');
+        sb.append(", town='").append(address).append('\'');
         sb.append('}');
         return sb.toString();
     }

@@ -1,6 +1,8 @@
 package com.exercise.UserDB;
 
+import com.exercise.UserDB.exception.InvalidData;
 import com.exercise.UserDB.exception.NoUserFoundException;
+import com.exercise.UserDB.model.Address;
 import com.exercise.UserDB.model.UserMongo;
 import com.exercise.UserDB.repository.MUserRepo;
 import com.exercise.UserDB.service.UserMongoService;
@@ -33,13 +35,19 @@ public class UserServiceTest {
 
     @BeforeAll
     static void setUp() {
-        user = new UserMongo("dadada","Alexa","alexa@email.com","dada","Medias");
+        user = new UserMongo("dadada","Alexa","alexa@email.com","dada",new Address("Turda",4,100000,"Medias"));
     }
 
     @Test
     void createUserAndSavesItAndThenReturnTrue() {
         Mockito.when(repo.save(user)).thenReturn(user);
         assertThat(userMongoService.save(user)).isEqualTo(true);
+    }
+
+    @Test
+    void createUserWithInvalidData() {
+        UserMongo userTest = new UserMongo("dadada","Alexa","alexa@email.com","dada",new Address("Turda",4,10,"Medias"));
+        assertThrows(InvalidData.class, () -> userMongoService.save(userTest));
     }
 
     @Test
@@ -50,8 +58,8 @@ public class UserServiceTest {
 
     @Test
     void createUsersAndThenVerifyThatWereSaved() {
-        UserMongo user1 = new UserMongo("dada","Mihai","mihai@email.com","pw2","Piatra");
-        UserMongo user2 = new UserMongo("dadada1","Dragos","dragos@email.com","pw3","Sighet");
+        UserMongo user1 = new UserMongo("dada","Mihai","mihai@email.com","pw2",new Address("Papa",4,100000,"Papa"));
+        UserMongo user2 = new UserMongo("dadada1","Dragos","dragos@email.com","pw3",new Address("Liberate",4,100000,"Sighet"));
 
         Mockito.when(repo.save(user1)).thenReturn(user1);
         Mockito.when(repo.save(user2)).thenReturn(user2);
@@ -128,4 +136,5 @@ public class UserServiceTest {
         Mockito.when(repo.findByEmail("da")).thenReturn(Optional.empty());
         assertThrows(NoUserFoundException.class, ()->userMongoService.findByEmail("da"));
     }
+
 }
