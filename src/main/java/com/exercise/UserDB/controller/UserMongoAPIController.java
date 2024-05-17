@@ -3,6 +3,7 @@ package com.exercise.UserDB.controller;
 import com.exercise.UserDB.aop.TrackCounterM;
 import com.exercise.UserDB.aop.TrackInfo;
 import com.exercise.UserDB.config.ConvertInterface;
+import com.exercise.UserDB.exception.InvalidData;
 import com.exercise.UserDB.exception.NoUserFoundException;
 import com.exercise.UserDB.model.UserDTOMongo;
 import com.exercise.UserDB.model.UserMongo;
@@ -46,6 +47,7 @@ public class UserMongoAPIController implements ConvertInterface<UserDTOMongo, Us
             logger.info("User with id {} is retrieved", id);
             return new ResponseEntity<>(convertToDTO(user),HttpStatus.OK);
         }catch (NoUserFoundException e){
+            logger.info(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -58,6 +60,7 @@ public class UserMongoAPIController implements ConvertInterface<UserDTOMongo, Us
             logger.info("User with email {} is retrieved", email);
             return new ResponseEntity<>(convertToDTO(user),HttpStatus.OK);
         }catch (NoUserFoundException e){
+            logger.info(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -73,9 +76,13 @@ public class UserMongoAPIController implements ConvertInterface<UserDTOMongo, Us
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/addUserm")
     public ResponseEntity<UserMongo> saveUser(@RequestBody UserMongo user) {
-        logger.info("User saved to database");
-        userMongoService.save(user);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+        try{
+            userMongoService.save(user);
+            return new ResponseEntity<>(user, HttpStatus.CREATED);
+        }catch (InvalidData e){
+            logger.info(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
@@ -86,6 +93,7 @@ public class UserMongoAPIController implements ConvertInterface<UserDTOMongo, Us
             userMongoService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (NoUserFoundException e){
+            logger.info(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -98,6 +106,7 @@ public class UserMongoAPIController implements ConvertInterface<UserDTOMongo, Us
             userMongoService.update(id,user);
             return new ResponseEntity<>("User updated.",HttpStatus.OK);
         }catch (NoUserFoundException e){
+            logger.info(e.getMessage());
             return new ResponseEntity<>("Could not update the user.",HttpStatus.NOT_FOUND);
         }
     }

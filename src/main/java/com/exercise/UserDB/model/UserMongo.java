@@ -23,6 +23,6 @@ public class UserMongo {
 
     private String password;
 
-    private String town;
+    private Address address;
 
 }

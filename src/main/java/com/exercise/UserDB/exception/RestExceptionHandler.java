@@ -19,4 +19,9 @@ public class RestExceptionHandler {
     public GraphQLError handle(GraphQLError graphQLError) {
         return GraphQLError.newError().message(graphQLError.getMessage()).build();
     }
+
+    @ExceptionHandler(InvalidData.class)
+    public ResponseEntity<Object> handleException(InvalidData ex) {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 }

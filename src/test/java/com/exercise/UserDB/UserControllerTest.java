@@ -1,6 +1,7 @@
 package com.exercise.UserDB;
 
 import com.exercise.UserDB.aop.TrackInfo;
+import com.exercise.UserDB.model.Address;
 import com.exercise.UserDB.model.UserMongo;
 import com.exercise.UserDB.repository.MUserRepo;
 import com.exercise.UserDB.rolesvalidator.ValidatorUser;
@@ -61,7 +62,7 @@ public class UserControllerTest {
 
     @BeforeAll
     static void setUp() {
-        userTest = new UserMongo("da","Alex","alex@email.com","pw","Medias");
+        userTest = new UserMongo("da","Alex","alex@email.com","pw",new Address("Turda",4,100000,"Medias"));
     }
 
     @Test
@@ -149,7 +150,7 @@ public class UserControllerTest {
         assertThat(userJSON.getName()).isEqualTo("Alex");
         assertThat(userJSON.getEmail()).isEqualTo("alex@email.com");
         assertThat(userJSON.getPassword()).isEqualTo("pw");
-        assertThat(userJSON.getTown()).isEqualTo("Medias");
+        assertThat(userJSON.getAddress().getCity()).isEqualTo("Medias");
     }
 
     @Test
