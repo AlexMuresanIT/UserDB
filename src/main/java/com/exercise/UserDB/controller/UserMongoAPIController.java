@@ -45,7 +45,7 @@ public class UserMongoAPIController implements ConvertInterface<UserDTOMongo, Us
             var user = userMongoService.findById(id);
             logger.info("User with id {} is retrieved", id);
             return new ResponseEntity<>(convertToDTO(user),HttpStatus.OK);
-        }catch (Exception e){
+        }catch (NoUserFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -85,7 +85,7 @@ public class UserMongoAPIController implements ConvertInterface<UserDTOMongo, Us
         try{
             userMongoService.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch (Exception e){
+        }catch (NoUserFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -97,7 +97,7 @@ public class UserMongoAPIController implements ConvertInterface<UserDTOMongo, Us
         try{
             userMongoService.update(id,user);
             return new ResponseEntity<>("User updated.",HttpStatus.OK);
-        }catch (Exception e){
+        }catch (NoUserFoundException e){
             return new ResponseEntity<>("Could not update the user.",HttpStatus.NOT_FOUND);
         }
     }
