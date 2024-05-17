@@ -30,11 +30,9 @@ public class UserMongoService {
             return true;
         }
         throw new InvalidData("Street number or zipcode are invalid.");
-
     }
 
     public List<UserMongo> findAll() {
-        log.info("size: {}",mUserRepo.findAll().size());
         return mUserRepo.findAll();
     }
 
@@ -56,10 +54,10 @@ public class UserMongoService {
     }
 
     public boolean update(String id, UserMongo user) {
+
         Optional<UserMongo> updatedUser = mUserRepo.findById(id);
 
         if(updatedUser.isPresent()){
-
             int zipcode = user.getAddress().getZipcode();
             int nr = user.getAddress().getNumber();
 
