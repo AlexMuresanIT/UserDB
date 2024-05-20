@@ -25,7 +25,7 @@ public class UserMongoService {
         int zipcode = user.getAddress().getZipcode();
         int nr = user.getAddress().getNumber();
 
-        if(zipcode > 99999 && zipcode < 1000000 && nr > 0 && nr < 1000) {
+        if(checkData(zipcode,nr)) {
             mUserRepo.save(user);
             return true;
         }
@@ -61,7 +61,7 @@ public class UserMongoService {
             int zipcode = user.getAddress().getZipcode();
             int nr = user.getAddress().getNumber();
 
-            if(zipcode > 9999 && zipcode < 1000000 && nr > 0 && nr < 1000) {
+            if(checkData(zipcode,nr)) {
                 UserMongo updatedUserMongo = updatedUser.get();
                 updatedUserMongo.setName(user.getName());
                 updatedUserMongo.setPassword(user.getPassword());
@@ -81,5 +81,10 @@ public class UserMongoService {
             return user.get();
         }
         throw new NoUserFoundException("User not found");
+    }
+
+    private boolean checkData(int zipCode, int nr) {
+
+        return zipCode > 9999 && zipCode < 1000000 && nr > 0 && nr < 1000;
     }
 }
